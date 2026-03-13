@@ -1,4 +1,3 @@
-const SVG_WIDTH = 254  // matches transverse-flute.svg viewBox width
 const SVG_SCALE = 0.7  // scale down to fit nicely
 
 export function buildFingeringSVG(
@@ -9,9 +8,10 @@ export function buildFingeringSVG(
   wrapper.innerHTML = svgTemplate
   const svgEl = wrapper.querySelector('svg') as SVGSVGElement
 
-  // Read native height from the SVG element so this works for any instrument
-  const nativeHeight = parseFloat(svgEl.getAttribute('height') ?? '66')
-  svgEl.setAttribute('width', String(SVG_WIDTH * SVG_SCALE))
+  // Read native dimensions so this works for any instrument SVG
+  const nativeWidth = parseFloat(svgEl.getAttribute('width') ?? '260')
+  const nativeHeight = parseFloat(svgEl.getAttribute('height') ?? '74')
+  svgEl.setAttribute('width', String(nativeWidth * SVG_SCALE))
   svgEl.setAttribute('height', String(nativeHeight * SVG_SCALE))
 
   activeKeys.forEach(id => {

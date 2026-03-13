@@ -175,12 +175,14 @@ body {
 /* ── Output Section ─────────────────────────────────────────────────────── */
 #output-section {
   flex: 1;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #notes-row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 12px;
   padding: 20px;

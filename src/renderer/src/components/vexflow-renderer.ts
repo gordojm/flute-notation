@@ -1,11 +1,11 @@
 import { Renderer, Stave, StaveNote, Voice, Formatter, Accidental } from 'vexflow'
 import type { ParsedNote } from '../utils/note-parser'
 
-const STAVE_X = 12
-const STAVE_WIDTH = 150
-const STAVE_Y = 32
-const CARD_SVG_WIDTH = STAVE_X + STAVE_WIDTH + 8
-const CARD_SVG_HEIGHT = 115
+const STAVE_X = 10
+const STAVE_WIDTH = 160
+const STAVE_Y = 50
+const CARD_SVG_WIDTH = STAVE_X + STAVE_WIDTH + 10
+const CARD_SVG_HEIGHT = 150
 
 export function renderNoteCard(container: HTMLElement, note: ParsedNote): void {
   const renderer = new Renderer(container as HTMLDivElement, Renderer.Backends.SVG)
