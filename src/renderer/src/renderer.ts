@@ -19,6 +19,22 @@ const clearBtn = document.getElementById('clear-btn') as HTMLButtonElement
 const noteButtons = document.getElementById('note-buttons') as HTMLElement
 const octaveBtns = document.querySelectorAll<HTMLButtonElement>('.octave-btn')
 const notesRow = document.getElementById('notes-row') as HTMLElement
+const themeToggleBtn = document.getElementById('theme-toggle') as HTMLButtonElement
+
+// ── Theme ──────────────────────────────────────────────────────────────────
+function applyTheme(theme: 'dark' | 'light'): void {
+  document.documentElement.dataset.theme = theme
+  themeToggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙'
+}
+
+const savedTheme = (localStorage.getItem('theme') as 'dark' | 'light' | null) ?? 'dark'
+applyTheme(savedTheme)
+
+themeToggleBtn.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+  localStorage.setItem('theme', next)
+  applyTheme(next)
+})
 
 // ── Init components ────────────────────────────────────────────────────────
 initInstrumentSelect(instrumentSelect, instruments, store)
