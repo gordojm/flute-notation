@@ -26,7 +26,7 @@ export function renderStave(
   const staveWidth = CLEF_WIDTH + notes.length * NOTE_SLOT_WIDTH
   const svgWidth = staveX + staveWidth + 20
 
-  const renderer = new Renderer(container, Renderer.Backends.SVG)
+  const renderer = new Renderer(container as HTMLDivElement, Renderer.Backends.SVG)
   renderer.resize(svgWidth, SVG_HEIGHT)
   const context = renderer.getContext()
 
@@ -38,7 +38,7 @@ export function renderStave(
     n => new StaveNote({ keys: [n.vexKey], duration: 'q' }),
   )
 
-  const voice = new Voice({ num_beats: notes.length, beat_value: 4 })
+  const voice = new Voice({ numBeats: notes.length, beatValue: 4 })
   voice.setMode(Voice.Mode.SOFT)
   voice.addTickables(staveNotes)
 
