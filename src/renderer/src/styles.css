@@ -192,10 +192,8 @@ body {
 }
 
 #fingering-container {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 0;
+  /* Children are absolutely positioned by JS to align under VexFlow note heads */
+  position: relative;
   padding-top: 8px;
 }
 

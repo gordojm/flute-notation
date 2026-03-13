@@ -13,9 +13,10 @@ function buildFingeringSVG(
   wrapper.innerHTML = svgTemplate
   const svgEl = wrapper.querySelector('svg') as SVGSVGElement
 
-  // Scale down
+  // Scale down — read native height from the SVG element so this works for any instrument
+  const nativeHeight = parseFloat(svgEl.getAttribute('height') ?? '66')
   svgEl.setAttribute('width', String(SVG_WIDTH * SVG_SCALE))
-  svgEl.setAttribute('height', String(66 * SVG_SCALE))
+  svgEl.setAttribute('height', String(nativeHeight * SVG_SCALE))
 
   activeKeys.forEach(id => {
     const el = svgEl.querySelector(`#${CSS.escape(id)}`)
@@ -69,7 +70,10 @@ export function renderFingeringDiagrams(
     container.appendChild(cell)
   })
 
-  // Container needs to be position:relative with enough height
+  // Container needs to be position:relative with enough height for the tallest cell
+  // (SVG height is read at build time from the first note's SVG; fall back to known height)
+  const firstSVG = container.querySelector('svg')
+  const svgH = firstSVG ? parseFloat(firstSVG.getAttribute('height') ?? '46') : 46
   container.style.position = 'relative'
-  container.style.height = `${66 * SVG_SCALE + 24}px`  // SVG height + label
+  container.style.height = `${svgH + 24}px`  // SVG height + note label
 }
