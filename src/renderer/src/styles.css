@@ -175,50 +175,49 @@ body {
 /* ── Output Section ─────────────────────────────────────────────────────── */
 #output-section {
   flex: 1;
-  overflow-x: auto;
-  overflow-y: auto;
-  padding: 20px;
+  overflow: auto;
+}
+
+#notes-row {
   display: flex;
-  flex-direction: column;
-  gap: 0;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
 }
 
-#vexflow-container {
-  min-height: 160px;
-}
-
-#vexflow-container svg {
-  display: block;
-}
-
-#fingering-container {
-  /* Children are absolutely positioned by JS to align under VexFlow note heads */
-  position: relative;
-  padding-top: 8px;
-}
-
-.fingering-cell {
+/* ── Note Card (stave + label + fingering diagram) ──────────────────────── */
+.note-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
 }
 
-.fingering-cell .note-label {
-  font-size: 0.7rem;
+.note-stave svg {
+  display: block;
+}
+
+.note-card .note-label {
+  font-size: 0.75rem;
   color: var(--text-muted);
   font-family: monospace;
+  letter-spacing: 0.03em;
 }
 
-.fingering-cell svg {
+.note-card svg {
   display: block;
 }
 
 .unknown-note {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--accent);
-  padding: 4px 8px;
+  padding: 6px 12px;
   border: 1px dashed var(--accent);
   border-radius: var(--radius);
-  margin: 4px;
 }
