@@ -102,9 +102,38 @@ function render(): void {
     card.appendChild(label)
 
     if (showFingering) {
-      const activeKeys = currentInstrument.fingeringChart[item.chartKey]
-      if (activeKeys !== undefined) {
-        card.appendChild(buildFingeringSVG(currentInstrument.svgTemplate(), activeKeys))
+      const options = currentInstrument.fingeringChart[item.chartKey]
+      if (options !== undefined) {
+        if (options.length === 1) {
+          card.appendChild(buildFingeringSVG(currentInstrument.svgTemplate(), options[0]))
+        } else {
+          const wrapper = document.createElement('div')
+          wrapper.className = 'fingering-wrapper'
+
+          const svgContainer = document.createElement('div')
+          svgContainer.appendChild(buildFingeringSVG(currentInstrument.svgTemplate(), options[0]))
+          wrapper.appendChild(svgContainer)
+
+          const selector = document.createElement('div')
+          selector.className = 'fingering-selector'
+
+          options.forEach((keys, i) => {
+            const btn = document.createElement('button')
+            btn.className = 'fing-btn' + (i === 0 ? ' active' : '')
+            btn.textContent = String(i + 1)
+            btn.addEventListener('click', () => {
+              svgContainer.innerHTML = ''
+              svgContainer.appendChild(buildFingeringSVG(currentInstrument.svgTemplate(), keys))
+              selector.querySelectorAll('.fing-btn').forEach((b, j) => {
+                b.classList.toggle('active', j === i)
+              })
+            })
+            selector.appendChild(btn)
+          })
+
+          wrapper.appendChild(selector)
+          card.appendChild(wrapper)
+        }
       } else {
         const unknownEl = document.createElement('div')
         unknownEl.className = 'unknown-note'
