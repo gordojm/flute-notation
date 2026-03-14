@@ -39,6 +39,19 @@ export function initNoteInput(
     noteButtonsEl.appendChild(btn)
   })
 
+  // ── Separator button ─────────────────────────────────────────────────────
+  const sepBtn = document.createElement('button')
+  sepBtn.className = 'note-btn separator-btn'
+  sepBtn.textContent = '||'
+  sepBtn.title = 'Insert barline'
+  sepBtn.addEventListener('click', () => {
+    const current = inputEl.value.trim()
+    inputEl.value = current ? `${current} ||` : '||'
+    handleChange()
+    inputEl.focus()
+  })
+  noteButtonsEl.appendChild(sepBtn)
+
   // ── Text input ───────────────────────────────────────────────────────────
   inputEl.addEventListener('input', handleChange)
 

@@ -199,6 +199,39 @@ body {
   color: var(--text-muted);
 }
 
+.note-btn.separator-btn {
+  background: var(--surface);
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  margin-left: 8px;
+}
+
+/* ── View toggles ───────────────────────────────────────────────────────── */
+#view-toggles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.view-toggle-btn {
+  background: var(--surface2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.15s;
+}
+
+.view-toggle-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
 /* ── Output Section ─────────────────────────────────────────────────────── */
 #output-section {
   flex: 1;
@@ -249,4 +282,25 @@ body {
   padding: 6px 12px;
   border: 1px dashed var(--accent);
   border-radius: var(--radius);
+}
+
+/* ── Barline separator ───────────────────────────────────────────────────── */
+.barline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 6px;
+  align-self: stretch;   /* fills the height of the tallest card in the row */
+  flex-shrink: 0;
+}
+
+.barline::before,
+.barline::after {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 100%;          /* fills the barline's own height */
+  background: var(--text-muted);
+  border-radius: 1px;
 }

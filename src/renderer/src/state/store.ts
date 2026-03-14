@@ -1,9 +1,9 @@
 import type { Instrument } from '../instruments/types'
-import type { ParsedNote } from '../utils/note-parser'
+import type { SequenceItem } from '../utils/note-parser'
 
 export interface AppState {
   currentInstrument: Instrument
-  noteSequence: ParsedNote[]
+  noteSequence: SequenceItem[]
 }
 
 type Listener = (state: AppState) => void

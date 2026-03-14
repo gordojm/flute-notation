@@ -20,6 +20,8 @@ const noteButtons = document.getElementById('note-buttons') as HTMLElement
 const octaveBtns = document.querySelectorAll<HTMLButtonElement>('.octave-btn')
 const notesRow = document.getElementById('notes-row') as HTMLElement
 const themeToggleBtn = document.getElementById('theme-toggle') as HTMLButtonElement
+const toggleStaveBtn = document.getElementById('toggle-stave') as HTMLButtonElement
+const toggleFingeringBtn = document.getElementById('toggle-fingering') as HTMLButtonElement
 
 // ── Theme ──────────────────────────────────────────────────────────────────
 function applyTheme(theme: 'dark' | 'light'): void {
@@ -36,6 +38,32 @@ themeToggleBtn.addEventListener('click', () => {
   applyTheme(next)
 })
 
+// ── View toggles ───────────────────────────────────────────────────────────
+let showStave     = localStorage.getItem('showStave')     !== 'false'
+let showFingering = localStorage.getItem('showFingering') !== 'false'
+
+function syncToggleButtons(): void {
+  toggleStaveBtn.classList.toggle('active', showStave)
+  toggleFingeringBtn.classList.toggle('active', showFingering)
+}
+syncToggleButtons()
+
+toggleStaveBtn.addEventListener('click', () => {
+  if (showStave && !showFingering) return  // last active — block
+  showStave = !showStave
+  localStorage.setItem('showStave', String(showStave))
+  syncToggleButtons()
+  render()
+})
+
+toggleFingeringBtn.addEventListener('click', () => {
+  if (showFingering && !showStave) return  // last active — block
+  showFingering = !showFingering
+  localStorage.setItem('showFingering', String(showFingering))
+  syncToggleButtons()
+  render()
+})
+
 // ── Init components ────────────────────────────────────────────────────────
 initInstrumentSelect(instrumentSelect, instruments, store)
 
@@ -46,32 +74,43 @@ function render(): void {
   const { currentInstrument, noteSequence } = store.getState()
   notesRow.innerHTML = ''
 
-  noteSequence.forEach(note => {
+  noteSequence.forEach(item => {
+    // Barline separator
+    if (item.type === 'separator') {
+      const bar = document.createElement('div')
+      bar.className = 'barline'
+      notesRow.appendChild(bar)
+      return
+    }
+
+    // Note card
     const card = document.createElement('div')
     card.className = 'note-card'
 
-    // Mini stave for this single note
-    const staveContainer = document.createElement('div')
-    staveContainer.className = 'note-stave'
-    renderNoteCard(staveContainer, note)
-    card.appendChild(staveContainer)
+    if (showStave) {
+      const staveContainer = document.createElement('div')
+      staveContainer.className = 'note-stave'
+      renderNoteCard(staveContainer, item)
+      card.appendChild(staveContainer)
+    }
 
-    // Note name label
+    // Note name label (always shown)
     const label = document.createElement('span')
     label.className = 'note-label'
-    label.textContent = note.original
+    label.textContent = item.original
     card.appendChild(label)
 
-    // Fingering diagram
-    const activeKeys = currentInstrument.fingeringChart[note.chartKey]
-    if (activeKeys !== undefined) {
-      card.appendChild(buildFingeringSVG(currentInstrument.svgTemplate(), activeKeys))
-    } else {
-      const unknownEl = document.createElement('div')
-      unknownEl.className = 'unknown-note'
-      unknownEl.textContent = '?'
-      unknownEl.title = `No fingering defined for ${note.chartKey}`
-      card.appendChild(unknownEl)
+    if (showFingering) {
+      const activeKeys = currentInstrument.fingeringChart[item.chartKey]
+      if (activeKeys !== undefined) {
+        card.appendChild(buildFingeringSVG(currentInstrument.svgTemplate(), activeKeys))
+      } else {
+        const unknownEl = document.createElement('div')
+        unknownEl.className = 'unknown-note'
+        unknownEl.textContent = '?'
+        unknownEl.title = `No fingering defined for ${item.chartKey}`
+        card.appendChild(unknownEl)
+      }
     }
 
     notesRow.appendChild(card)
