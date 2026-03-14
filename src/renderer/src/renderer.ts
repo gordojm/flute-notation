@@ -17,7 +17,8 @@ const instrumentSelect = document.getElementById('instrument-select') as HTMLSel
 const noteInput = document.getElementById('note-input') as HTMLInputElement
 const clearBtn = document.getElementById('clear-btn') as HTMLButtonElement
 const noteButtons = document.getElementById('note-buttons') as HTMLElement
-const octaveBtns = document.querySelectorAll<HTMLButtonElement>('.octave-btn')
+const octaveBtns = document.querySelectorAll<HTMLButtonElement>('.octave-btn:not(#accidental-toggle)')
+const accidentalToggleBtn = document.getElementById('accidental-toggle') as HTMLButtonElement
 const notesRow = document.getElementById('notes-row') as HTMLElement
 const themeToggleBtn = document.getElementById('theme-toggle') as HTMLButtonElement
 const toggleStaveBtn = document.getElementById('toggle-stave') as HTMLButtonElement
@@ -67,7 +68,7 @@ toggleFingeringBtn.addEventListener('click', () => {
 // ── Init components ────────────────────────────────────────────────────────
 initInstrumentSelect(instrumentSelect, instruments, store)
 
-initNoteInput(noteInput, clearBtn, noteButtons, octaveBtns, store)
+initNoteInput(noteInput, clearBtn, noteButtons, octaveBtns, accidentalToggleBtn, store)
 
 // ── Render on state change ─────────────────────────────────────────────────
 function render(): void {
