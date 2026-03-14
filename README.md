@@ -37,3 +37,5 @@ npm run build     # production build
 - TypeScript
 - [VexFlow](https://www.vexflow.com/) for staff rendering
 - [Vitest](https://vitest.dev/) for unit tests
+
+Made in an afternoon with Claude Code.
